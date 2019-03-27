@@ -1,0 +1,90 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+
+namespace _03.Chore_Wars
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int totaltime = 0;
+            int timetoDishes = 0;
+            int timeHouse = 0;
+            int timeLaundry = 0;
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "wife is happy") { break; }
+                var patterDishes = @"<([a-z0-9]+)>";
+                var patternHouse = @"\[([A-Z0-9]+)]";
+                var patternlandry = @"({.*})";
+                Match regexDishes = Regex.Match(input, patterDishes);
+                Match regexHouse = Regex.Match(input, patternHouse);
+                Match regexLaundry = Regex.Match(input, patternlandry);
+                if (regexDishes.ToString().Length > 0)
+                {
+                    for (int i = 0; i < regexDishes.ToString().Length; i++)
+                    {
+                        char currentChar = regexDishes.ToString()[i];
+                        if (char.IsDigit(currentChar))
+                        {
+                            timetoDishes += currentChar - 48;
+                        }
+                    }
+                   
+
+                }
+                if (regexHouse.ToString().Length > 0)
+                {
+                    for (int z = 0; z < regexHouse.ToString().Length; z++)
+                    {
+                        char currentChar = regexHouse.ToString()[z];
+                        if (char.IsDigit(currentChar))
+                        {
+                            timeHouse += currentChar - 48;
+                        }
+                    }
+
+                   
+                }
+
+
+
+                if (regexLaundry.ToString().Length > 0)
+                {
+                    for (int x = 0; x < regexLaundry.ToString().Length; x++)
+                    {
+                        char currentChar = regexLaundry.ToString()[x];
+                        if (char.IsDigit(currentChar))
+                        {
+                            timeLaundry += currentChar - 48;
+                        }
+                    }
+
+                    
+                }
+
+
+                totaltime = timetoDishes + timeLaundry + timeHouse;
+
+
+
+
+
+
+
+
+
+            }
+            Console.WriteLine($"Doing the dishes - {timetoDishes} min.");
+            Console.WriteLine($"Cleaning the house - {timeHouse} min.");
+            Console.WriteLine($"Doing the laundry - {timeLaundry} min.");
+            Console.WriteLine($"Total - {totaltime} min.");
+        }
+
+    }
+}
