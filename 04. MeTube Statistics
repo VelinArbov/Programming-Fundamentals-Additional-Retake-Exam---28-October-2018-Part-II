@@ -1,0 +1,97 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+namespace MeTube_Statistics
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, int> songViews = new Dictionary<string, int>();
+            Dictionary<string, int> songLikes = new Dictionary<string, int>();
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "stats time") { break; }
+                if (input.Contains('-'))
+                {
+                    string[] tokens = input.Split('-');
+                    string song = tokens[0];
+                    int views = int.Parse(tokens[1]);
+                    if (!songViews.ContainsKey(song))
+                    {
+                        songViews[song] = views;
+                        songLikes[song] = 0;
+                    }
+                    else
+                    {
+                        songViews[song] += views;
+
+                    }
+
+                }
+                else
+                {
+                    string[] tokens = input.Split(':');
+                    if (tokens[0] == "like")
+                    {
+                        if(!songViews.ContainsKey(tokens[1]))
+                        {
+                            songLikes[tokens[1]] = 1;
+                        }
+                        else
+                        {
+                            songLikes[tokens[1]]++;
+                        }
+
+
+                    }
+                    else
+                    {
+                        if (songViews.ContainsKey(tokens[1]))
+                        {
+                            songLikes[tokens[1]]--; 
+                        }
+                       
+                    }
+                }
+            }
+            string command = Console.ReadLine();
+            if ( command == "by likes")
+            {
+                foreach (var item in songLikes.OrderByDescending(x=> x.Value))
+                {
+                    
+                    var name = item.Key;
+                    var likes = item.Value;
+                    foreach (var view in songViews)
+                    {
+                        var views = view.Value;
+                    }
+                    Console.WriteLine($"{item.Key} - {songViews[name]} views - {item.Value} likes");
+                }
+
+                // unny Cats - 700 views - 2 likes
+
+            }
+            else
+            {
+                foreach (var item in songViews.OrderByDescending(x => x.Value))
+                {
+
+                    var name = item.Key;
+                    var likes = item.Value;
+                    foreach (var view in songLikes)
+                    {
+                        var views = view.Value;
+                    }
+                    Console.WriteLine($"{name} - {likes} views - {songLikes[name]} likes");
+                }
+            }
+                
+
+            
+        }
+    }
+}
